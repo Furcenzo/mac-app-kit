@@ -1,0 +1,3 @@
+# Apps that use mac-app-kit (folders relative to the kit). ./sync.sh without arguments works on these.
+../Lineup
+../Brew GUI
