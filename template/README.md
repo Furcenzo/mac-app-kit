@@ -20,7 +20,7 @@ Requires Xcode (or the Swift 6 toolchain).
 
 ```sh
 swift build && swift test
-./scripts/build-app.sh      # build/__APP_NAME__.app ("__APP_NAME__ Dev")
+./scripts/build-app.sh      # "build/__APP_NAME__ Dev.app"
 ./scripts/run.sh [sk|en]    # build and start it
 ```
 

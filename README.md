@@ -24,7 +24,7 @@ The scripts in an app (all run from anywhere, they `cd` to the repository root):
 
 | Script | Does |
 | --- | --- |
-| `scripts/build-app.sh` | `swift build -c release` + `.app` bundle in `build/`: Info.plist, icon, `*.lproj`, signature. Development builds are "<App> Dev" with bundle ID `<id>.dev` (`DEV_CHANNEL=1`) and are signed with the local "<App> Local Dev" certificate, so macOS keeps their permissions between builds |
+| `scripts/build-app.sh` | `swift build -c release` + `.app` bundle in `build/`: Info.plist, icon, `*.lproj`, signature. Development builds are `build/<App> Dev.app`, named "<App> Dev" with bundle ID `<id>.dev` (`DEV_CHANNEL=1`), so Spotlight and LaunchServices never mistake them for the installed app, and are signed with the local "<App> Local Dev" certificate, so macOS keeps their permissions between builds |
 | `scripts/run.sh [sk\|en]` | Build, quit the running development build (with `RUN_QUITS_INSTALLED=1` also the installed app), start the new build (optionally in another language) |
 | `scripts/release.sh <version> [--publish]` | Tests, localization check, universal ad-hoc signed build, zip in `build/`. `--publish` also tags, creates the GitHub Release (notes from `CHANGELOG.md` + `scripts/release-notes.md`), bumps the cask in the Homebrew tap and refreshes the showroom website |
 | `scripts/check-localization.sh` | Every localizable text in the code has a translation in every `<lang>.lproj`, matching format specifiers, no Slovak in code |

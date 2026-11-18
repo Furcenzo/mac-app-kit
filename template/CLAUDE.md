@@ -3,7 +3,7 @@
 Native macOS app (Swift 6, SwiftUI, Swift Package Manager, macOS 15+).
 `Sources/__CORE__` = pure logic, no UI (tested in `Tests/__CORE__Tests`); `Sources/__EXECUTABLE__` = the app.
 
-Build: `swift build`, tests: `swift test`, app bundle: `./scripts/build-app.sh` → `build/__APP_NAME__.app`,
+Build: `swift build`, tests: `swift test`, app bundle: `./scripts/build-app.sh` → `build/__APP_NAME__ Dev.app`,
 build + restart: `./scripts/run.sh [sk|en]`.
 
 ## Shared scripts (mac-app-kit)
@@ -13,9 +13,10 @@ are copies from mac-app-kit (`../mac-app-kit`, shared with the author's other Ma
 change them in the kit and run its `./sync.sh` (`./sync.sh --check` lists differences). The settings of this
 app (name, bundle ID, repository, cask…) are in `app.conf`.
 
-**Development builds are "__APP_NAME__ Dev"** (bundle ID `__BUNDLE_ID__.dev`, the default of `build-app.sh`);
-only `release.sh` and `install-local.sh` build the real `__BUNDLE_ID__` and they delete their staging copies
-afterwards. Reason: the login item, Spotlight and LaunchServices pick an app by bundle ID.
+**Development builds are "__APP_NAME__ Dev"** (`build/__APP_NAME__ Dev.app`, bundle ID `__BUNDLE_ID__.dev`, the
+default of `build-app.sh`); only `release.sh` and `install-local.sh` build the real `__APP_NAME__.app` with
+`__BUNDLE_ID__` and they delete their staging copies afterwards. Reason: the login item, Spotlight and
+LaunchServices pick an app by bundle ID and file name.
 
 App icon: `Assets/AppIcon.icns` + `AppIcon.png`, drawn by `scripts/icon/AppIcon.swift` – regenerate both with
 `./scripts/make-icon.sh` and commit them.

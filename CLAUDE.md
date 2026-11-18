@@ -5,6 +5,9 @@ Shared scripts of the author's Mac apps and a template for new ones; see README.
 - `files/` is copied 1:1 into every app by `./sync.sh` (apps in `apps.txt`). After changing anything there, run
   `./sync.sh`, then build and test each app (`./scripts/build-app.sh`, `./scripts/release.sh <current version>`
   without `--publish`) and commit the copies in each app repository. `./sync.sh --check` must report a match.
+- Development builds (`DEV_CHANNEL=1`) are `build/<App> Dev.app` with `<id>.dev` (`DEV_APP_BUNDLE` in
+  `app-config.sh`); only `release.sh` and `install-local.sh` build `<App>.app` with the real ID, in their own staging
+  folders, and remove it afterwards. Never put a dev build at `build/<App>.app` – Spotlight would open it.
 - App-specific values belong in the app's `app.conf` (defaults in `files/scripts/app-config.sh`), never in `files/`.
   Keep the scripts working for every app in `apps.txt` (spaces in app names: "Brew GUI").
 - `template/` + `new-app.sh` create new apps; test changes with `./new-app.sh "Test App" --dir <temp folder>`
