@@ -25,7 +25,7 @@ The scripts in an app (all run from anywhere, they `cd` to the repository root):
 | Script | Does |
 | --- | --- |
 | `scripts/build-app.sh` | `swift build -c release` + `.app` bundle in `build/`: Info.plist, icon, `*.lproj`, signature. Development builds are "<App> Dev" with bundle ID `<id>.dev` (`DEV_CHANNEL=1`) and are signed with the local "<App> Local Dev" certificate, so macOS keeps their permissions between builds |
-| `scripts/run.sh [sk\|en]` | Build, quit the running app, start the new build (optionally in another language) |
+| `scripts/run.sh [sk\|en]` | Build, quit the running development build (with `RUN_QUITS_INSTALLED=1` also the installed app), start the new build (optionally in another language) |
 | `scripts/release.sh <version> [--publish]` | Tests, localization check, universal ad-hoc signed build, zip in `build/`. `--publish` also tags, creates the GitHub Release (notes from `CHANGELOG.md` + `scripts/release-notes.md`), bumps the cask in the Homebrew tap and refreshes the showroom website |
 | `scripts/check-localization.sh` | Every localizable text in the code has a translation in every `<lang>.lproj`, matching format specifiers, no Slovak in code |
 | `scripts/make-icon.sh` | Runs the app's own `scripts/icon/AppIcon.swift` (1024 px PNG) and builds the `.icns` |
@@ -50,6 +50,7 @@ CATEGORY="public.app-category.utilities"
 MIN_MACOS="15.0"
 AGENT_APP=1                               # menu bar only (LSUIElement)
 DEV_CHANNEL=1                             # development builds are "Lineup Dev" (<BUNDLE_ID>.dev)
+RUN_QUITS_INSTALLED=1                     # run.sh also quits the installed Lineup (both would take over ⌘Tab)
 # Optional: RESOURCES (default Sources/<EXECUTABLE>/Resources), ICON_ICNS / ICON_PNG (default Assets/AppIcon.*),
 # ICON_SOURCE, ZIP_NAME (default APP_NAME with dashes), DEV_IDENTITY, COPYRIGHT, INFO_PLIST_EXTRA, RELEASE_NOTES
 ```
