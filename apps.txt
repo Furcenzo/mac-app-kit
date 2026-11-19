@@ -2,4 +2,4 @@
 ../Lineup
 ../Brew GUI
 ../Roundhouse
-../MenuBarLab
+../Stowaway
