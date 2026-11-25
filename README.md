@@ -4,7 +4,8 @@
 
 Shared build, release and localization scripts of the author's macOS apps ([Lineup](https://github.com/Furcenzo/lineup),
 [Brew GUI](https://github.com/Furcenzo/brew-gui)), plus a template for new apps. The apps are Swift Package Manager
-projects (SwiftUI/AppKit, no Xcode project), bilingual (English + Slovak), ad-hoc signed and distributed as zip files
+projects (SwiftUI/AppKit, no Xcode project), bilingual (English + Slovak), signed with the author's self-signed "Furcenzo Release" certificate (not notarized)
+and distributed as zip files
 on GitHub Releases and through a Homebrew tap.
 
 The scripts are **copied** into each app (`sync.sh`), so every app repository stays self-contained and builds
@@ -26,11 +27,11 @@ The scripts in an app (all run from anywhere, they `cd` to the repository root):
 | --- | --- |
 | `scripts/build-app.sh` | `swift build -c release` + `.app` bundle in `build/`: Info.plist, icon, `*.lproj`, signature. Development builds are `build/<App> Dev.app`, named "<App> Dev" with bundle ID `<id>.dev` (`DEV_CHANNEL=1`), so Spotlight and LaunchServices never mistake them for the installed app, and are signed with the local "<App> Local Dev" certificate, so macOS keeps their permissions between builds |
 | `scripts/run.sh [sk\|en]` | Build, quit the running development build (with `RUN_QUITS_INSTALLED=1` also the installed app), start the new build (optionally in another language) |
-| `scripts/release.sh <version> [--publish]` | Tests, localization check, universal ad-hoc signed build, zip in `build/`. `--publish` also tags, creates the GitHub Release (notes from `CHANGELOG.md` + `scripts/release-notes.md`), bumps the cask in the Homebrew tap and refreshes the showroom website |
+| `scripts/release.sh <version> [--publish]` | Tests, localization check, universal build signed with "Furcenzo Release" (so the users' permissions survive updates; `RELEASE_IDENTITY=-` = ad-hoc), zip in `build/`. `--publish` also tags, creates the GitHub Release (notes from `CHANGELOG.md` + `scripts/release-notes.md`), bumps the cask in the Homebrew tap and refreshes the showroom website |
 | `scripts/check-localization.sh` | Every localizable text in the code has a translation in every `<lang>.lproj`, matching format specifiers, no Slovak in code |
 | `scripts/make-icon.sh` | Runs the app's own `scripts/icon/AppIcon.swift` (1024 px PNG) and builds the `.icns` |
-| `scripts/setup-dev-signing.sh` | One-time: creates the self-signed "<App> Local Dev" code signing certificate (asks for the login password) |
-| `scripts/install-local.sh [version]` | The author's Mac: installs a dev-signed build of the latest tag into /Applications |
+| `scripts/setup-dev-signing.sh [--release]` | One-time: creates the self-signed "<App> Local Dev" code signing certificate, with `--release` the "Furcenzo Release" certificate of all public releases plus a backup in `~/.config/furcenzo-signing` with its password in the login keychain (asks for the login password) |
+| `scripts/install-local.sh [version]` | The author's Mac: installs a build of the latest tag into /Applications, signed like the releases |
 | `scripts/hooks/claude-stop-l10n.sh` | Claude Code `Stop` hook: refuses to finish while translations are missing |
 | `.githooks/pre-commit` | Same check before a commit (`git config core.hooksPath .githooks`) |
 
@@ -52,7 +53,7 @@ AGENT_APP=1                               # menu bar only (LSUIElement)
 DEV_CHANNEL=1                             # development builds are "Lineup Dev" (<BUNDLE_ID>.dev)
 RUN_QUITS_INSTALLED=1                     # run.sh also quits the installed Lineup (both would take over ⌘Tab)
 # Optional: RESOURCES (default Sources/<EXECUTABLE>/Resources), ICON_ICNS / ICON_PNG (default Assets/AppIcon.*),
-# ICON_SOURCE, ZIP_NAME (default APP_NAME with dashes), DEV_IDENTITY, COPYRIGHT, INFO_PLIST_EXTRA, RELEASE_NOTES
+# ICON_SOURCE, ZIP_NAME (default APP_NAME with dashes), DEV_IDENTITY, RELEASE_IDENTITY, COPYRIGHT, INFO_PLIST_EXTRA, RELEASE_NOTES
 ```
 
 App-specific files that the kit never overwrites: `app.conf`, `scripts/release-notes.md` (the Download part of the
