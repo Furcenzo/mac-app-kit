@@ -3,3 +3,4 @@
 ../Brew GUI
 ../Roundhouse
 ../Stowaway
+../Pointsman
